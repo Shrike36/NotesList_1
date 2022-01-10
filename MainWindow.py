@@ -221,8 +221,8 @@ class Ui_MainWindow(QWidget):
 
         self.retranslateUi(MainWindow)
 
-        self.valueOfBeats = 4
         self.countOfBeats = 4
+        self.valueOfBeats = 4
 
         self.notesList = NotesList(self.countOfBeats, self.valueOfBeats)
 
@@ -244,7 +244,7 @@ class Ui_MainWindow(QWidget):
                 barNumber = int(self.barNumberLineEdit.text())
                 elementNumber = int(self.elementNumberLineEdit.text())
                 try:
-                    self.notesList.deleteElement(barNumber-1, elementNumber-1, autoFillFlag)
+                    self.notesList.deleteElementAtPosition(barNumber - 1, elementNumber - 1, autoFillFlag)
                 except Exception as ex:
                     QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
             else:
@@ -265,6 +265,8 @@ class Ui_MainWindow(QWidget):
         if(self.addRadioButton.isChecked()):
 
             note = self.noteComboBox.currentData()
+            autoFillFlag = self.autoFillCheckBox.isChecked()
+
             if(note > 0):
                 value = ValuesEnum(self.valueComboBox.currentData())
                 octave = int(self.octaveComboBox.currentText())
@@ -275,10 +277,8 @@ class Ui_MainWindow(QWidget):
                 element = Rest(value)
                 # self.octaveComboBox.setEnabled(False)
 
-            # bar.elements.append(element)
-
             try:
-                self.notesList.addElement(element)
+                self.notesList.addElement(element, autoFillFlag)
             except Exception as ex:
                 QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
 

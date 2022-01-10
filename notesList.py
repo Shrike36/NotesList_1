@@ -12,26 +12,26 @@ class NotesList:
     def getNotesList(self):
         return self.notes_list
 
-    def addElement(self, element: Element):
+    def addElement(self, element: Element, autoFillFlag: bool):
         if(len(self.notes_list) == 0 or not self.notes_list[len(self.notes_list)-1].getFreeSpace()):
             if(len(self.notes_list) <= 64):
                 self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
             else:
                 raise Exception("Невозможно создать больше 64 тактов!")
-        (self.notes_list[len(self.notes_list)-1]).addElement(element)
+        (self.notes_list[len(self.notes_list)-1]).addElement(element, autoFillFlag)
 
     def deleteLastElement(self, autoFillFlag: bool):
         if(not len(self.notes_list)):
             raise Exception("Элементы отсутствуют!")
         elementIndex = len(self.notes_list[len(self.notes_list)-1].getElements())-1
-        self.notes_list[len(self.notes_list)-1].deleteElement(elementIndex, autoFillFlag)
+        self.notes_list[len(self.notes_list)-1].deleteElementAtPosition(elementIndex, autoFillFlag)
         if(not len(self.notes_list[len(self.notes_list)-1].getElements())):
             self.notes_list.pop(len(self.notes_list)-1)
 
-    def deleteElement(self, barNumber: int, elementNumber: int, autoFillFlag: bool):
+    def deleteElementAtPosition(self, barNumber: int, elementNumber: int, autoFillFlag: bool):
         if(barNumber >= len(self.notes_list) or barNumber < 0):
             raise Exception("Такта с заданным номером не существует!")
-        self.notes_list[barNumber].deleteElement(elementNumber, autoFillFlag)
+        self.notes_list[barNumber].deleteElementAtPosition(elementNumber, autoFillFlag)
         if(not len(self.notes_list[barNumber].getElements())):
             self.notes_list.pop(barNumber)
 

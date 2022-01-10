@@ -13,11 +13,14 @@ class Bar:
     def getElements(self):
         return self.elements
 
-    def addElement(self, element: Element):
-        if(self.getFreeSpace() >= 1/element.getValue().value):
-            self.elements.append(element)
+    def addElement(self, element: Element, autoFillFlag: bool):
+        if(not autoFillFlag):
+            if(self.getFreeSpace() >= 1/element.getValue().value):
+                self.elements.append(element)
+            else:
+                raise Exception("Навозможно добавить к такту элемент заданной длительности!")
         else:
-            raise Exception("Навозможно добавить к такту элемент заданной длительности!")
+            self.autoFill(element, len(self.elements))
 
     def deleteElement(self, elementNumber: int, autoFillFlag: bool):
         if(elementNumber >= len(self.elements) or elementNumber < 0):
@@ -26,8 +29,6 @@ class Bar:
             self.elements.pop(elementNumber)
         else:
             elementToFill = self.elements.pop(elementNumber)
-            # if(elementNumber == len(self.elements)):
-            #     elementNumber-=1
             self.autoFill(elementToFill, elementNumber)
 
     def getFreeSpace(self):
