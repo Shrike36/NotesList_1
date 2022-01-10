@@ -277,10 +277,18 @@ class Ui_MainWindow(QWidget):
                 element = Rest(value)
                 # self.octaveComboBox.setEnabled(False)
 
-            try:
-                self.notesList.addElement(element, autoFillFlag)
-            except Exception as ex:
-                QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
+                barNumber = int(self.barNumberLineEdit.text())-1
+                elementNumber = int(self.elementNumberLineEdit.text())-1
+                try:
+                    self.notesList.addElementToPosition(element, barNumber, elementNumber, autoFillFlag)
+                except Exception as ex:
+                    QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            else:
+                try:
+                    self.notesList.addElementToTail(element, autoFillFlag)
+                except Exception as ex:
+                    QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
 
         else:
             pass
