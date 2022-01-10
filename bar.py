@@ -19,13 +19,15 @@ class Bar:
             raise Exception("Навозможно добавить к такту элемент заданной длительности!")
 
     def deleteElement(self, elementNumber: int, autoFillFlag: bool):
-        if(elementNumber >= len(self.elements)):
+        if(elementNumber >= len(self.elements) or elementNumber < 0):
             raise Exception("Элемента с заданным номером в заданном такте не существует!")
         if(not autoFillFlag):
             self.elements.pop(elementNumber)
         else:
             self.elements.pop(elementNumber)
             if(len(self.elements) > 0):
+                if(elementNumber == len(self.elements)):
+                    elementNumber-=1
                 self.autoFill(elementNumber)
 
     def getFreeSpace(self):

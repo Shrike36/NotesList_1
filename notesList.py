@@ -20,8 +20,16 @@ class NotesList:
                 raise Exception("Невозможно создать больше 64 тактов!")
         (self.notes_list[len(self.notes_list)-1]).addElement(element)
 
+    def deleteLastElement(self, autoFillFlag: bool):
+        if(not len(self.notes_list)):
+            raise Exception("Элементы отсутствуют!")
+        elementIndex = len(self.notes_list[len(self.notes_list)-1].getElements())-1
+        self.notes_list[len(self.notes_list)-1].deleteElement(elementIndex, autoFillFlag)
+        if(not len(self.notes_list[len(self.notes_list)-1].getElements())):
+            self.notes_list.pop(len(self.notes_list)-1)
+
     def deleteElement(self, barNumber: int, elementNumber: int, autoFillFlag: bool):
-        if(barNumber >= len(self.notes_list)):
+        if(barNumber >= len(self.notes_list) or barNumber < 0):
             raise Exception("Такта с заданным номером не существует!")
         self.notes_list[barNumber].deleteElement(elementNumber, autoFillFlag)
         if(not len(self.notes_list[barNumber].getElements())):

@@ -239,12 +239,17 @@ class Ui_MainWindow(QWidget):
 
     def deletePushButtonClicked(self):
         if(self.deleteRadioButton.isChecked()):
+            autoFillFlag = self.autoFillCheckBox.isChecked()
             if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
                 barNumber = int(self.barNumberLineEdit.text())
                 elementNumber = int(self.elementNumberLineEdit.text())
-                autoFillFlag = self.autoFillCheckBox.isChecked()
                 try:
                     self.notesList.deleteElement(barNumber-1, elementNumber-1, autoFillFlag)
+                except Exception as ex:
+                    QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            else:
+                try:
+                    self.notesList.deleteLastElement(autoFillFlag)
                 except Exception as ex:
                     QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
 

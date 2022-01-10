@@ -84,7 +84,7 @@ class Ui_NotesListWindow(object):
             row, col = self.drawBar(bar_1, row, col)
 
         self.gridLayout.setRowStretch(row+3, 1)
-        self.gridLayout.setColumnStretch(18, 1)
+        self.gridLayout.setColumnStretch(19, 1)
 
     def drawBar(self, bar: Bar, row: int, col: int):
         elements = bar.getElements()
