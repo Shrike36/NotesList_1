@@ -1,5 +1,6 @@
 from element import Element
 from valuesEnum import ValuesEnum
+import copy
 
 
 class Bar:
@@ -24,11 +25,10 @@ class Bar:
         if(not autoFillFlag):
             self.elements.pop(elementNumber)
         else:
-            self.elements.pop(elementNumber)
-            if(len(self.elements) > 0):
-                if(elementNumber == len(self.elements)):
-                    elementNumber-=1
-                self.autoFill(elementNumber)
+            elementToFill = self.elements.pop(elementNumber)
+            # if(elementNumber == len(self.elements)):
+            #     elementNumber-=1
+            self.autoFill(elementToFill, elementNumber)
 
     def getFreeSpace(self):
         size = self.countOfBeats / self.valuesOfBeats
@@ -36,7 +36,15 @@ class Bar:
             size -= 1/element.getValue().value
         return size
 
-    def autoFill(self, elementNumber):
-        self.elements[elementNumber].setValue(
-            ValuesEnum(
-                self.elements[elementNumber].getValue().value/2))
+    def autoFill(self, elementToFill: Element, elementNumber: int):
+        freeSpace = self.getFreeSpace()
+
+        while(freeSpace != 0):
+            for value in ValuesEnum:
+                if(freeSpace - 1/value.value >= 0):
+                    elementToFill.setValue(value)
+                    newElement = copy.deepcopy(elementToFill)
+                    self.elements.insert(elementNumber, newElement)
+                    elementNumber+=1
+                    freeSpace -= 1/value.value
+                    break

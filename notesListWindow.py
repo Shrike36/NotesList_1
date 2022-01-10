@@ -112,7 +112,7 @@ class Ui_NotesListWindow(object):
 
             col+=1
 
-        if(bar.getFreeSpace()):
+        if(bar.getFreeSpace() > 0):
             self.drawPic("", row, col, 594/5)
             self.drawPic("", row+1, col, 512/5)
             col+=1
