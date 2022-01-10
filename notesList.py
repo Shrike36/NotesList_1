@@ -14,7 +14,10 @@ class NotesList:
 
     def addElement(self, element: Element):
         if(len(self.notes_list) == 0 or not self.notes_list[len(self.notes_list)-1].getFreeSpace()):
-            self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
+            if(len(self.notes_list) <= 64):
+                self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
+            else:
+                raise Exception("Невозможно создать больше 64 тактов!")
         (self.notes_list[len(self.notes_list)-1]).addElement(element)
 
     def deleteElement(self, barNumber: int, elementNumber: int, autoFillFlag: bool):

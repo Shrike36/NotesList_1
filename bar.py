@@ -1,4 +1,6 @@
 from element import Element
+from valuesEnum import ValuesEnum
+
 
 class Bar:
 
@@ -21,9 +23,18 @@ class Bar:
             raise Exception("Элемента с заданным номером в заданном такте не существует!")
         if(not autoFillFlag):
             self.elements.pop(elementNumber)
+        else:
+            self.elements.pop(elementNumber)
+            if(len(self.elements) > 0):
+                self.autoFill(elementNumber)
 
     def getFreeSpace(self):
         size = self.countOfBeats / self.valuesOfBeats
         for element in self.elements:
             size -= 1/element.getValue().value
         return size
+
+    def autoFill(self, elementNumber):
+        self.elements[elementNumber].setValue(
+            ValuesEnum(
+                self.elements[elementNumber].getValue().value/2))

@@ -8,6 +8,9 @@ class Element:
     def getValue(self):
         return self.value
 
+    def setValue(self, value:ValuesEnum):
+        self.value = value
+
     def getPic(self):
         pass
 
