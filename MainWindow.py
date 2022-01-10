@@ -102,9 +102,11 @@ class Ui_MainWindow(QWidget):
         self.savePushButton.setFont(font2)
         self.savePushButton.clicked.connect(self.savePushButtonClicked)
 
-        self.tactNumberLineEdit = QLineEdit(self.centralwidget)
-        self.tactNumberLineEdit.setObjectName(u"tactNumberLineEdit")
-        self.tactNumberLineEdit.setGeometry(QRect(2*580, 2*20, 2*71, 2*20))
+        self.barNumberLineEdit = QLineEdit(self.centralwidget)
+        self.barNumberLineEdit.setObjectName(u"barNumberLineEdit")
+        self.barNumberLineEdit.setGeometry(QRect(2*580, 2*20, 2*71, 2*20))
+        self.barNumberLineEdit.setValidator(QIntValidator(1, 64, self))
+
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(2*480, 2*20, 2*81, 2*20))
@@ -146,13 +148,18 @@ class Ui_MainWindow(QWidget):
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(2*480, 2*50, 2*121, 2*20))
         self.label_9.setFont(font2)
+
         self.elementNumberLineEdit = QLineEdit(self.centralwidget)
         self.elementNumberLineEdit.setObjectName(u"elementNumberLineEdit")
         self.elementNumberLineEdit.setGeometry(QRect(2*580, 2*50, 2*71, 2*20))
+        self.elementNumberLineEdit.setValidator(QIntValidator(1, 90, self))
+
         self.deletePushButton = QPushButton(self.centralwidget)
         self.deletePushButton.setObjectName(u"deletePushButton")
         self.deletePushButton.setGeometry(QRect(2*360, 2*170, 2*81, 2*23))
         self.deletePushButton.setFont(font2)
+        self.deletePushButton.clicked.connect(self.deletePushButtonClicked)
+
         self.autoFillCheckBox = QCheckBox(self.centralwidget)
         self.autoFillCheckBox.setObjectName(u"autoFillCheckBox")
         self.autoFillCheckBox.setGeometry(QRect(2*10, 2*170, 2*211, 2*16))
@@ -229,6 +236,22 @@ class Ui_MainWindow(QWidget):
     def openNotesListWindow(self):
         self.notesListWindow = NotesListW(self)
         self.notesListWindow.show()
+
+    def deletePushButtonClicked(self):
+        if(self.deleteRadioButton.isChecked()):
+            if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
+                barNumber = int(self.barNumberLineEdit.text())
+                elementNumber = int(self.elementNumberLineEdit.text())
+                autoFillFlag = self.autoFillCheckBox.isChecked()
+                try:
+                    self.notesList.deleteElement(barNumber-1, elementNumber-1, autoFillFlag)
+                except Exception as ex:
+                    QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+
+            if (self.notesListWindow == None):
+                self.openNotesListWindow()
+
+            self.notesListWindow.redraw(self.notesList)
 
     def savePushButtonClicked(self):
         # sender = self.sender()

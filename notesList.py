@@ -17,6 +17,12 @@ class NotesList:
             self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
         (self.notes_list[len(self.notes_list)-1]).addElement(element)
 
+    def deleteElement(self, barNumber: int, elementNumber: int, autoFillFlag: bool):
+        if(barNumber >= len(self.notes_list)):
+            raise Exception("Такта с заданным номером не существует!")
+        self.notes_list[barNumber].deleteElement(elementNumber, autoFillFlag)
+        if(not len(self.notes_list[barNumber].getElements())):
+            self.notes_list.pop(barNumber)
 
     def addBar(self, bar: Bar):
         self.notes_list.append(bar)

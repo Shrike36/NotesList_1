@@ -24,12 +24,12 @@ class Ui_NotesListWindow(object):
     def setupUi(self, notesListWindow):
         if not notesListWindow.objectName():
             notesListWindow.setObjectName(u"notesListWindow")
-        notesListWindow.setFixedSize(324/5*18.5, ((512+594)/5+50)*3)
+        notesListWindow.setFixedSize(324/5*19, ((512+594)/5+50)*3)
         notesListWindow.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowMinimizeButtonHint)
         # self.setWindowFlags(Qt.Window)
         self.centralwidget = QWidget(notesListWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setGeometry(QRect(0, 0, 324/5*18.5, ((512+594)/5+50)*3))
+        self.centralwidget.setGeometry(QRect(0, 0, 324/5*19, ((512+594)/5+50)*3))
 
         self.layoutForScrollArea = QHBoxLayout(self.centralwidget)
         # self.layoutForScrollArea.setGeometry(QRect(0, 0, 324/5*19, ((512+594)/5+50)*64))
@@ -37,7 +37,7 @@ class Ui_NotesListWindow(object):
         self.gridLayoutWidget = QScrollArea()
         self.gridLayoutWidget.setWidgetResizable(True)
         self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(0, 0, 324/5*18.5, ((512+594)/5+50)*64))
+        self.gridLayoutWidget.setGeometry(QRect(0, 0, 324/5*19, ((512+594)/5+50)*64))
 
         self.scrollAreaWidgetContents = QWidget()
 
@@ -76,6 +76,8 @@ class Ui_NotesListWindow(object):
 
     def redraw(self, notesList: NotesList):
 
+        self.clearLayout()
+
         row = 0
         col = 0
         for bar_1 in notesList.getNotesList():
@@ -110,9 +112,13 @@ class Ui_NotesListWindow(object):
 
             col+=1
 
-        if(not bar.getFreeSpace()):
-            self.drawPic("D:/4_year/тест/pic/sign/alto_end.png", row, col, 594/5)
-            self.drawPic("D:/4_year/тест/pic/sign/bass_end.png", row+1, col, 512/5)
+        if(bar.getFreeSpace()):
+            self.drawPic("", row, col, 594/5)
+            self.drawPic("", row+1, col, 512/5)
+            col+=1
+
+        self.drawPic("D:/4_year/тест/pic/sign/alto_end.png", row, col, 594/5)
+        self.drawPic("D:/4_year/тест/pic/sign/bass_end.png", row+1, col, 512/5)
 
         return [row, col + 1]
 
