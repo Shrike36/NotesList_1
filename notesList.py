@@ -1,7 +1,6 @@
 from bar import Bar
 from element import Element
 
-
 class NotesList:
 
     def __init__(self, countOfBeats: int, valueOfBeats: int):
@@ -24,6 +23,8 @@ class NotesList:
             self.notes_list.pop(len(self.notes_list)-1)
 
     def addElementToPosition(self, element: Element, barNumber: int, elementNumber: int, autoFillFlag: bool):
+        if(barNumber >= len(self.notes_list) or barNumber < 0):
+            raise Exception("Такта с заданным номером не существует!")
         (self.notes_list[barNumber]).addElement(element, elementNumber, autoFillFlag)
 
     def deleteLastElement(self, autoFillFlag: bool):
@@ -41,6 +42,11 @@ class NotesList:
         self.notes_list[barNumber].deleteElement(elementNumber, autoFillFlag)
         if(not len(self.notes_list[barNumber].getElements())):
             self.notes_list.pop(barNumber)
+
+    def editElementOnPosition(self, element: Element, barNumber: int, elementNumber: int, autoFillFlag: bool):
+        if(barNumber >= len(self.notes_list) or barNumber < 0):
+            raise Exception("Такта с заданным номером не существует!")
+        self.notes_list[barNumber].editElement(element, elementNumber, autoFillFlag)
 
     def addBar(self, bar: Bar):
         self.notes_list.append(bar)

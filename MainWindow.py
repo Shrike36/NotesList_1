@@ -262,20 +262,18 @@ class Ui_MainWindow(QWidget):
         # sender = self.sender()
         # bar = Bar()
 
+        note = self.noteComboBox.currentData()
+        autoFillFlag = self.autoFillCheckBox.isChecked()
+        if(note > 0):
+            value = ValuesEnum(self.valueComboBox.currentData())
+            octave = int(self.octaveComboBox.currentText())
+            note_name = NotesEnum(note)
+            element = Note(value, octave, note_name)
+        else:
+            value = ValuesEnum(self.valueComboBox.currentData())
+            element = Rest(value)
+
         if(self.addRadioButton.isChecked()):
-
-            note = self.noteComboBox.currentData()
-            autoFillFlag = self.autoFillCheckBox.isChecked()
-
-            if(note > 0):
-                value = ValuesEnum(self.valueComboBox.currentData())
-                octave = int(self.octaveComboBox.currentText())
-                note_name = NotesEnum(note)
-                element = Note(value, octave, note_name)
-            else:
-                value = ValuesEnum(self.valueComboBox.currentData())
-                element = Rest(value)
-                # self.octaveComboBox.setEnabled(False)
 
             if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
                 barNumber = int(self.barNumberLineEdit.text())-1
@@ -290,8 +288,16 @@ class Ui_MainWindow(QWidget):
                 except Exception as ex:
                     QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
 
-        else:
-            pass
+        elif (self.editRadioButton.isChecked()):
+            if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
+                barNumber = int(self.barNumberLineEdit.text())-1
+                elementNumber = int(self.elementNumberLineEdit.text())-1
+                try:
+                    self.notesList.editElementOnPosition(element, barNumber, elementNumber, autoFillFlag)
+                except Exception as ex:
+                    QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            else:
+                QMessageBox.critical(self, "Ошибка ", "Не указан элемент для редактирования!", QMessageBox.Ok)
 
         if (self.notesListWindow == None):
             self.openNotesListWindow()
