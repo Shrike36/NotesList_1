@@ -1,6 +1,6 @@
-from element import Element
-from notesEnum import NotesEnum
-from valuesEnum import ValuesEnum
+from models.element import Element
+from models.notesEnum import NotesEnum
+from models.valuesEnum import ValuesEnum
 
 
 class Note(Element):

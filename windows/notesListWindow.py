@@ -12,12 +12,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from bar import Bar
-from element import Element
-from note import Note
-from notesEnum import NotesEnum
-from notesList import NotesList
-from valuesEnum import ValuesEnum
+from models.bar import Bar
+from models.element import Element
+from models.notesList import NotesList
 
 
 class Ui_NotesListWindow(object):

@@ -1,4 +1,4 @@
-from valuesEnum import ValuesEnum
+from models.valuesEnum import ValuesEnum
 
 class Element:
 

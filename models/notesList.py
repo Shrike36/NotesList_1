@@ -1,5 +1,5 @@
-from bar import Bar
-from element import Element
+from models.bar import Bar
+from models.element import Element
 
 class NotesList:
 

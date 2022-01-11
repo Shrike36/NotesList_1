@@ -1,9 +1,8 @@
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QWidget, QPushButton, QGridLayout, QApplication, QVBoxLayout, QFrame
 
-from MainWindow import Ui_MainWindow
-from PyQt5.QtGui import QPixmap
+from windows.MainWindow import Ui_MainWindow
+
 
 class mywindow(QtWidgets.QMainWindow):
     def __init__(self):

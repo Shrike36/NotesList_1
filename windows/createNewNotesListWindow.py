@@ -13,7 +13,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from notesList import NotesList
+from models.notesList import NotesList
 
 
 class Ui_CreateNewNotesListWindow(object):

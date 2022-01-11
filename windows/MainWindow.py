@@ -5,22 +5,21 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
+import copy
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from bar import Bar
-from createNewNotesListWindow import Ui_CreateNewNotesListWindow
-from element import Element
-from fileUtils import FileUtils
-from note import Note
-from notesEnum import NotesEnum
-from notesList import NotesList
-from rest import Rest
-from valuesEnum import ValuesEnum
-import copy
-from notesListWindow import Ui_NotesListWindow
+from models.note import Note
+from models.notesEnum import NotesEnum
+from models.notesList import NotesList
+from models.rest import Rest
+from models.valuesEnum import ValuesEnum
+from utils.fileUtils import FileUtils
+from windows.createNewNotesListWindow import Ui_CreateNewNotesListWindow
+from windows.notesListWindow import Ui_NotesListWindow
+
 
 class NotesListW(QWidget, Ui_NotesListWindow):                          # +++
     def __init__(self, parent=None):

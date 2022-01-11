@@ -1,7 +1,6 @@
-from element import Element
-from valuesEnum import ValuesEnum
+from models.element import Element
+from models.valuesEnum import ValuesEnum
 import copy
-
 
 class Bar:
     def __init__(self, countOfBeats: int, valueOfBeats: int):

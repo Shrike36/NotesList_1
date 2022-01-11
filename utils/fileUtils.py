@@ -1,9 +1,9 @@
-from bar import Bar
-from note import Note
-from notesEnum import NotesEnum
-from notesList import NotesList
-from rest import Rest
-from valuesEnum import ValuesEnum
+from models.bar import Bar
+from models.note import Note
+from models.notesEnum import NotesEnum
+from models.notesList import NotesList
+from models.rest import Rest
+from models.valuesEnum import ValuesEnum
 
 
 class FileUtils:

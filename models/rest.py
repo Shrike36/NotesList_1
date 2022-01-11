@@ -1,5 +1,5 @@
-from element import Element
-from valuesEnum import ValuesEnum
+from models.element import Element
+from models.valuesEnum import ValuesEnum
 
 
 class Rest(Element):
