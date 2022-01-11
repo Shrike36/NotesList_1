@@ -17,3 +17,6 @@ class Element:
     def getPicScale(self):
         return 594/5
 
+    def toString(self):
+        pass
+

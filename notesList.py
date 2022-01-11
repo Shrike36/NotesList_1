@@ -50,3 +50,12 @@ class NotesList:
 
     def addBar(self, bar: Bar):
         self.notes_list.append(bar)
+
+    def toString(self):
+        string = str(self.countOfBeats)
+        string+="\n"
+        string+=str(self.valuesOfBeats)
+        string+="\n"
+        for bar in self.notes_list:
+            string+=bar.toString()
+        return string

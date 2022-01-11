@@ -57,3 +57,10 @@ class Bar:
                     elementNumber+=1
                     freeSpace -= 1/value.value
                     break
+
+    def toString(self):
+        str = "{\n"
+        for element in self.elements:
+            str+=element.toString()
+        str+="}\n"
+        return str

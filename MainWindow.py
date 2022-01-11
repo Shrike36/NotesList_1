@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import *
 
 from bar import Bar
 from element import Element
+from fileUtils import FileUtils
 from note import Note
 from notesEnum import NotesEnum
 from notesList import NotesList
@@ -39,6 +40,8 @@ class Ui_MainWindow(QWidget):
         self.undo.setObjectName(u"undo")
         self.open = QAction(MainWindow)
         self.open.setObjectName(u"open")
+
+        self.save.triggered.connect(self.saveFile)
         self.undo.triggered.connect(self.undoPressed)
 
         self.centralwidget = QWidget(MainWindow)
@@ -237,6 +240,14 @@ class Ui_MainWindow(QWidget):
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
+    def saveFile(self):
+        filename, ok = QFileDialog.getSaveFileName(self,
+                                                   "Сохранить файл",
+                                                   ".",
+                                                   "(*.ns)")
+        print("<br>Сохранить файл: <b>{}</b> <br> <b>{:*^54}</b>"
+                                  "".format(filename, ok))
+        FileUtils.saveFile(filename, self.notesList)
 
     def undoPressed(self):
         tmp = copy.deepcopy(self.prevNotesList)

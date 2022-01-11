@@ -10,3 +10,7 @@ class Rest(Element):
     def getPic(self):
         return "D:/4_year/тест/pic/pause/alto/"+ \
                str(self.value.value)+".png"
+
+    def toString(self):
+        string = "rest"+"\n{\n"+str(self.value.value)+"\n}\n"
+        return string

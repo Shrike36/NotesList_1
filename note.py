@@ -23,3 +23,11 @@ class Note(Element):
 
     def getOctave(self):
         return self.octave
+
+    def toString(self):
+        string = "note"+"\n{\n"+str(self.value.value)+"\n"+\
+              str(self.value.value)+"\n"+ \
+              str(self.octave)+"\n"+ \
+              str(self.name.value)+ \
+              "\n}\n"
+        return string
