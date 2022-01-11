@@ -128,10 +128,41 @@ class TestNotesList(TestCase):
         self.assertEqual(notesList.getNotesList()[0].getElements()[0].getName(), NotesEnum.c)
         self.assertEqual(notesList.getNotesList()[0].getElements()[1].getName(), NotesEnum.c)
 
-    def test_delete_element_at_position(self):
-        self.fail()
+    def test_delete_element_at_position_incorrect_position(self):
+        notesList = NotesList(3, 4, 64)
+        with self.assertRaises(Exception) as context:
+            notesList.deleteElementAtPosition(1, 0, False)
+        self.assertTrue('Такта с заданным номером не существует!' in str(context.exception))
 
+    def test_delete_element_at_position_without_auto_fill(self):
+        notesList = NotesList(3, 4, 64)
+        notesList.addElementToTail(Rest(ValuesEnum.sixteenth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.eighth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.quarter), False)
+        notesList.deleteElementAtPosition(0, 0, False)
+        self.assertEqual(len(notesList.getNotesList()[0].getElements()), 2)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[0].getValue(), ValuesEnum.eighth)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[1].getValue(), ValuesEnum.quarter)
 
+    def test_delete_element_at_position_without_auto_fill(self):
+        notesList = NotesList(3, 4, 64)
+        notesList.addElementToTail(Rest(ValuesEnum.sixteenth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.eighth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.quarter), False)
+        notesList.deleteElementAtPosition(0, 0, False)
+        self.assertEqual(len(notesList.getNotesList()[0].getElements()), 2)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[0].getValue(), ValuesEnum.eighth)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[1].getValue(), ValuesEnum.quarter)
+
+    def test_delete_element_at_position_auto_fill(self):
+        notesList = NotesList(3, 4, 64)
+        notesList.addElementToTail(Rest(ValuesEnum.sixteenth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.eighth), False)
+        notesList.addElementToTail(Rest(ValuesEnum.quarter), False)
+        notesList.deleteElementAtPosition(0, 0, True)
+        self.assertEqual(len(notesList.getNotesList()[0].getElements()), 4)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[0].getValue(), ValuesEnum.quarter)
+        self.assertEqual(notesList.getNotesList()[0].getElements()[1].getValue(), ValuesEnum.eighth)
 
 
 
