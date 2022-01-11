@@ -17,7 +17,7 @@ from notesEnum import NotesEnum
 from notesList import NotesList
 from rest import Rest
 from valuesEnum import ValuesEnum
-
+import copy
 from notesListWindow import Ui_NotesListWindow
 
 class NotesListW(QWidget, Ui_NotesListWindow):                          # +++
@@ -30,6 +30,7 @@ class Ui_MainWindow(QWidget):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setFixedSize(2*658, 2*245)
+
         self.create = QAction(MainWindow)
         self.create.setObjectName(u"create")
         self.save = QAction(MainWindow)
@@ -38,6 +39,8 @@ class Ui_MainWindow(QWidget):
         self.undo.setObjectName(u"undo")
         self.open = QAction(MainWindow)
         self.open.setObjectName(u"open")
+        self.undo.triggered.connect(self.undoPressed)
+
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.label = QLabel(self.centralwidget)
@@ -200,6 +203,7 @@ class Ui_MainWindow(QWidget):
         self.transposeDownPushButton.setGeometry(QRect(2*570, 2*120, 2*81, 2*23))
         self.transposeDownPushButton.setFont(font2)
         MainWindow.setCentralWidget(self.centralwidget)
+
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(2*0, 2*0, 2*658, 2*22))
@@ -225,6 +229,7 @@ class Ui_MainWindow(QWidget):
         self.valueOfBeats = 4
 
         self.notesList = NotesList(self.countOfBeats, self.valueOfBeats)
+        self.prevNotesList = NotesList(self.countOfBeats, self.valueOfBeats)
 
         self.notesListWindow = NotesListW(self)
         self.notesListWindow.show()
@@ -233,12 +238,21 @@ class Ui_MainWindow(QWidget):
     # setupUi
 
 
+    def undoPressed(self):
+        tmp = copy.deepcopy(self.prevNotesList)
+        self.prevNotesList = copy.deepcopy(self.notesList)
+        self.notesList = tmp
+        if (self.notesListWindow == None):
+            self.openNotesListWindow()
+        self.notesListWindow.redraw(self.notesList)
+
     def openNotesListWindow(self):
         self.notesListWindow = NotesListW(self)
         self.notesListWindow.show()
 
     def deletePushButtonClicked(self):
         if(self.deleteRadioButton.isChecked()):
+            self.prevNotesList = copy.deepcopy(self.notesList)
             autoFillFlag = self.autoFillCheckBox.isChecked()
             if(self.barNumberLineEdit.text() and self.elementNumberLineEdit.text()):
                 barNumber = int(self.barNumberLineEdit.text())
@@ -255,12 +269,12 @@ class Ui_MainWindow(QWidget):
 
             if (self.notesListWindow == None):
                 self.openNotesListWindow()
-
             self.notesListWindow.redraw(self.notesList)
 
     def savePushButtonClicked(self):
         # sender = self.sender()
         # bar = Bar()
+        self.prevNotesList = copy.deepcopy(self.notesList)
 
         note = self.noteComboBox.currentData()
         autoFillFlag = self.autoFillCheckBox.isChecked()
@@ -301,7 +315,6 @@ class Ui_MainWindow(QWidget):
 
         if (self.notesListWindow == None):
             self.openNotesListWindow()
-
         self.notesListWindow.redraw(self.notesList)
 
 

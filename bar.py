@@ -4,7 +4,6 @@ import copy
 
 
 class Bar:
-
     def __init__(self, countOfBeats: int, valueOfBeats: int):
         self.elements = []
         self.countOfBeats = countOfBeats
