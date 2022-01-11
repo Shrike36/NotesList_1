@@ -10,6 +10,8 @@ class FileUtils:
 
     @staticmethod
     def saveFile(path: str, notesList: NotesList):
+        if(path == ''):
+            return
         f = open(path, 'w')
         str = notesList.toString()
         f.write(str)
@@ -17,6 +19,8 @@ class FileUtils:
 
     @staticmethod
     def openFromFile(path: str):
+        if(path == ''):
+            return None
         f = open(path, 'r')
         return FileUtils.parseNoteListFromString(f.readlines())
 

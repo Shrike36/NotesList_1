@@ -61,3 +61,20 @@ class NotesList:
         for bar in self.notes_list:
             string+=bar.toString()
         return string
+
+    def transposeUp(self, countOfSemitones: int):
+        max = self.findMaxCountOfSemitonesToTransposeUp()
+        max = max if max < 11 else 11
+        if(max < countOfSemitones or countOfSemitones < 0):
+            raise Exception("Данный список нот можно транспонировать максимум на "+str(max)+" полутонов вверх!")
+        for bar in self.notes_list:
+            bar.transposeUp(countOfSemitones)
+
+    def findMaxCountOfSemitonesToTransposeUp(self):
+        min = 1000
+        for bar in self.notes_list:
+            barMin = bar.findMaxCountOfSemitonesToTransposeUp()
+            if(barMin >= min):
+                min = barMin
+        return min
+

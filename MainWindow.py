@@ -198,21 +198,29 @@ class Ui_MainWindow(QWidget):
         self.line_4.setGeometry(QRect(2*450, 2*0, 2*20, 2*221))
         self.line_4.setFrameShape(QFrame.VLine)
         self.line_4.setFrameShadow(QFrame.Sunken)
+
         self.countOfSemitonesLineEdit = QLineEdit(self.centralwidget)
         self.countOfSemitonesLineEdit.setObjectName(u"countOfSemitonesLineEdit")
         self.countOfSemitonesLineEdit.setGeometry(QRect(2*580, 2*90, 2*71, 2*20))
+        self.countOfSemitonesLineEdit.setValidator(QIntValidator(1, 11, self))
+
         self.label_12 = QLabel(self.centralwidget)
         self.label_12.setObjectName(u"label_12")
         self.label_12.setGeometry(QRect(2*480, 2*90, 2*81, 2*20))
         self.label_12.setFont(font2)
+
         self.transposeUpPushButton = QPushButton(self.centralwidget)
         self.transposeUpPushButton.setObjectName(u"transposeUpPushButton")
         self.transposeUpPushButton.setGeometry(QRect(2*480, 2*120, 2*81, 2*23))
         self.transposeUpPushButton.setFont(font2)
+        self.transposeUpPushButton.clicked.connect(self.transposeUpPushButtonClicked)
+
         self.transposeDownPushButton = QPushButton(self.centralwidget)
         self.transposeDownPushButton.setObjectName(u"transposeDownPushButton")
         self.transposeDownPushButton.setGeometry(QRect(2*570, 2*120, 2*81, 2*23))
         self.transposeDownPushButton.setFont(font2)
+        self.transposeDownPushButton.clicked.connect(self.transposeDownPushButtonClicked)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.menubar = QMenuBar(MainWindow)
@@ -250,43 +258,23 @@ class Ui_MainWindow(QWidget):
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
-    def openFromFile(self):
-        self.prevNotesList = copy.deepcopy(self.notesList)
-
-        try:
-            filename, filetype = QFileDialog.getOpenFileName(self,
-                                                             "Выбрать файл",
-                                                             ".",
-                                                             "(*.ns)")
-            notesList = FileUtils.openFromFile(filename)
-            if(notesList != None):
-                self.notesList = notesList
-                self.countOfBeats = self.notesList.__getattribute__("countOfBeats")
-                self.valueOfBeats = self.notesList.__getattribute__("valuesOfBeats")
-                self.countOfBeastLlabel.setText(str(self.countOfBeats))
-                self.valueOfBeatLlabel.setText(str(self.valueOfBeats))
-
-        except Exception as ex:
-            QMessageBox.critical(self, "Ошибка ", "Невозможно считать данные из файла", QMessageBox.Ok)
-
+    def transposeUpPushButtonClicked(self):
+        if(self.countOfSemitonesLineEdit.text()):
+            self.prevNotesList = copy.deepcopy(self.notesList)
+            try:
+                self.notesList.transposeUp(int(self.countOfSemitonesLineEdit.text()))
+            except Exception as ex:
+                QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
         if (self.notesListWindow == None):
             self.openNotesListWindow()
         self.notesListWindow.redraw(self.notesList)
 
-    def saveFile(self):
-        try:
-            filename, ok = QFileDialog.getSaveFileName(self,
-                                                       "Сохранить файл",
-                                                       ".",
-                                                       "(*.ns)")
-            FileUtils.saveFile(filename, self.notesList)
-        except Exception as ex:
-            QMessageBox.critical(self, "Ошибка ", "Невозможно сохранить в файл", QMessageBox.Ok)
+    def transposeDownPushButtonClicked(self):
+        pass
 
     def createNewNotesListWindow(self):
         self.createNewNotesListWindow = CreateNewNotesListW(self)
         self.createNewNotesListWindow.show()
-
 
     def undoPressed(self):
         tmp = copy.deepcopy(self.prevNotesList)
@@ -371,6 +359,38 @@ class Ui_MainWindow(QWidget):
             self.openNotesListWindow()
         self.notesListWindow.redraw(self.notesList)
 
+    def openFromFile(self):
+        self.prevNotesList = copy.deepcopy(self.notesList)
+
+        try:
+            filename, filetype = QFileDialog.getOpenFileName(self,
+                                                             "Выбрать файл",
+                                                             ".",
+                                                             "(*.ns)")
+            notesList = FileUtils.openFromFile(filename)
+            if(notesList != None):
+                self.notesList = notesList
+                self.countOfBeats = self.notesList.__getattribute__("countOfBeats")
+                self.valueOfBeats = self.notesList.__getattribute__("valuesOfBeats")
+                self.countOfBeastLlabel.setText(str(self.countOfBeats))
+                self.valueOfBeatLlabel.setText(str(self.valueOfBeats))
+
+        except Exception as ex:
+            QMessageBox.critical(self, "Ошибка ", "Невозможно считать данные из файла", QMessageBox.Ok)
+
+        if (self.notesListWindow == None):
+            self.openNotesListWindow()
+        self.notesListWindow.redraw(self.notesList)
+
+    def saveFile(self):
+        try:
+            filename, ok = QFileDialog.getSaveFileName(self,
+                                                       "Сохранить файл",
+                                                       ".",
+                                                       "(*.ns)")
+            FileUtils.saveFile(filename, self.notesList)
+        except Exception as ex:
+            QMessageBox.critical(self, "Ошибка ", "Невозможно сохранить в файл", QMessageBox.Ok)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))

@@ -31,3 +31,19 @@ class Note(Element):
               str(self.name.value)+ \
               "\n}\n"
         return string
+
+    def tramsposeUp(self, countOfSemitones):
+        max = self.findMaxCountOfSemitonesToTransposeUp()
+        max = max if max < 11 else 11
+        if(max < countOfSemitones or countOfSemitones < 0 ):
+            raise Exception("Данную ноту можно транспонировать максимум на "+str(max)+" полутонов вверх!")
+
+        if (self.name.value + countOfSemitones > 12):
+            self.octave+=1
+            countOfSemitones = self.name.value + countOfSemitones - 12
+            self.name = NotesEnum(countOfSemitones)
+        else:
+            self.name = NotesEnum(self.name.value + countOfSemitones)
+
+    def findMaxCountOfSemitonesToTransposeUp(self):
+        return (5*12+NotesEnum.f.value) - (self.octave*12+self.name.value)

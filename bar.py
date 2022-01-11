@@ -64,3 +64,22 @@ class Bar:
             str+=element.toString()
         str+="]\n"
         return str
+
+    def transposeUp(self, countOfSemitones: int):
+        max = self.findMaxCountOfSemitonesToTransposeUp()
+        max = max if max < 11 else 11
+        if(max < countOfSemitones or countOfSemitones < 0 ):
+            raise Exception("Данный список нот можно транспонировать максимум на "+str(max)+" полутонов вверх!")
+        for element in self.elements:
+            if(element.__class__.__name__ == "Note"):
+                element.tramsposeUp(countOfSemitones)
+
+    def findMaxCountOfSemitonesToTransposeUp(self):
+        min = 1000
+        for element in self.elements:
+            barMin = 10000
+            if(element.__class__.__name__ == "Note"):
+                barMin = element.findMaxCountOfSemitonesToTransposeUp()
+            if(barMin <= min):
+                min = barMin
+        return min
