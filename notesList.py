@@ -49,6 +49,8 @@ class NotesList:
         self.notes_list[barNumber].editElement(element, elementNumber, autoFillFlag)
 
     def addBar(self, bar: Bar):
+        if(len(self.notes_list) == 64):
+            raise Exception("Невозможно создать больше 64 тактов!")
         self.notes_list.append(bar)
 
     def toString(self):

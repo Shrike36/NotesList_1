@@ -11,6 +11,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from bar import Bar
+from createNewNotesListWindow import Ui_CreateNewNotesListWindow
 from element import Element
 from fileUtils import FileUtils
 from note import Note
@@ -24,6 +25,11 @@ from notesListWindow import Ui_NotesListWindow
 class NotesListW(QWidget, Ui_NotesListWindow):                          # +++
     def __init__(self, parent=None):
         super(NotesListW, self).__init__(parent)
+        self.setupUi(self)
+
+class CreateNewNotesListW(QWidget, Ui_CreateNewNotesListWindow):                          # +++
+    def __init__(self, parent=None):
+        super(CreateNewNotesListW, self).__init__(parent)
         self.setupUi(self)
 
 class Ui_MainWindow(QWidget):
@@ -41,6 +47,7 @@ class Ui_MainWindow(QWidget):
         self.open = QAction(MainWindow)
         self.open.setObjectName(u"open")
 
+        self.create.triggered.connect(self.createNewNotesListWindow)
         self.save.triggered.connect(self.saveFile)
         self.open.triggered.connect(self.openFromFile)
         self.undo.triggered.connect(self.undoPressed)
@@ -238,6 +245,8 @@ class Ui_MainWindow(QWidget):
         self.notesListWindow = NotesListW(self)
         self.notesListWindow.show()
 
+        self.createNewNotesListWindow = None
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
@@ -258,7 +267,7 @@ class Ui_MainWindow(QWidget):
                 self.valueOfBeatLlabel.setText(str(self.valueOfBeats))
 
         except Exception as ex:
-            QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            QMessageBox.critical(self, "Ошибка ", "Невозможно считать данные из файла", QMessageBox.Ok)
 
         if (self.notesListWindow == None):
             self.openNotesListWindow()
@@ -272,7 +281,12 @@ class Ui_MainWindow(QWidget):
                                                        "(*.ns)")
             FileUtils.saveFile(filename, self.notesList)
         except Exception as ex:
-            QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+            QMessageBox.critical(self, "Ошибка ", "Невозможно сохранить в файл", QMessageBox.Ok)
+
+    def createNewNotesListWindow(self):
+        self.createNewNotesListWindow = CreateNewNotesListW(self)
+        self.createNewNotesListWindow.show()
+
 
     def undoPressed(self):
         tmp = copy.deepcopy(self.prevNotesList)
