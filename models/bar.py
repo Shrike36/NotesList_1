@@ -86,3 +86,22 @@ class Bar:
             if(barMin <= min):
                 min = barMin
         return min
+
+    def transposeDown(self, countOfSemitones: int):
+        max = self.findMaxCountOfSemitonesToTransposeDown()
+        max = max if max < 11 else 11
+        if(max < countOfSemitones or countOfSemitones < 0 ):
+            raise Exception("Данный список нот можно транспонировать максимум на "+str(max)+" полутонов вниз!")
+        for element in self.elements:
+            if(element.__class__.__name__ == "Note"):
+                element.transposeDown(countOfSemitones)
+
+    def findMaxCountOfSemitonesToTransposeDown(self):
+        min = 1000
+        for element in self.elements:
+            barMin = 10000
+            if(element.__class__.__name__ == "Note"):
+                barMin = element.findMaxCountOfSemitonesToTransposeDown()
+            if(barMin <= min):
+                min = barMin
+        return min

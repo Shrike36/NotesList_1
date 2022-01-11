@@ -271,7 +271,15 @@ class Ui_MainWindow(QWidget):
         self.notesListWindow.redraw(self.notesList)
 
     def transposeDownPushButtonClicked(self):
-        pass
+        if(self.countOfSemitonesLineEdit.text()):
+            self.prevNotesList = copy.deepcopy(self.notesList)
+            try:
+                self.notesList.transposeDown(int(self.countOfSemitonesLineEdit.text()))
+            except Exception as ex:
+                QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+        if (self.notesListWindow == None):
+            self.openNotesListWindow()
+        self.notesListWindow.redraw(self.notesList)
 
     def createNewNotesListWindow(self):
         self.createNewNotesListWindow = CreateNewNotesListW(self)

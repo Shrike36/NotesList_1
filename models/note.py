@@ -55,3 +55,19 @@ class Note(Element):
 
     def findMaxCountOfSemitonesToTransposeUp(self):
         return (5*12+6) - (self.octave*12+self.name.value)
+
+    def transposeDown(self, countOfSemitones):
+        max = self.findMaxCountOfSemitonesToTransposeDown()
+        max = max if max < 11 else 11
+        if(max < countOfSemitones or countOfSemitones < 0 ):
+            raise Exception("Данную ноту можно транспонировать максимум на "+str(max)+" полутонов вниз!")
+
+        if (self.name.value - countOfSemitones < 1):
+            self.octave-=1
+            countOfSemitones = 12 - (self.name.value - countOfSemitones)
+            self.name = NotesEnum(countOfSemitones)
+        else:
+            self.name = NotesEnum(self.name.value - countOfSemitones)
+
+    def findMaxCountOfSemitonesToTransposeDown(self):
+        return (self.octave*12+self.name.value) - (2*12+NotesEnum.f.value)
