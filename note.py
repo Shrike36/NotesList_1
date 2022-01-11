@@ -25,7 +25,7 @@ class Note(Element):
         return self.octave
 
     def toString(self):
-        string = "note"+"\n{\n"+str(self.value.value)+"\n"+\
+        string = "note"+"\n{\n"+\
               str(self.value.value)+"\n"+ \
               str(self.octave)+"\n"+ \
               str(self.name.value)+ \

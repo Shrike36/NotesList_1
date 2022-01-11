@@ -42,6 +42,7 @@ class Ui_MainWindow(QWidget):
         self.open.setObjectName(u"open")
 
         self.save.triggered.connect(self.saveFile)
+        self.open.triggered.connect(self.openFromFile)
         self.undo.triggered.connect(self.undoPressed)
 
         self.centralwidget = QWidget(MainWindow)
@@ -240,19 +241,47 @@ class Ui_MainWindow(QWidget):
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
+    def openFromFile(self):
+        self.prevNotesList = copy.deepcopy(self.notesList)
+
+        try:
+            filename, filetype = QFileDialog.getOpenFileName(self,
+                                                             "Выбрать файл",
+                                                             ".",
+                                                             "(*.ns)")
+            notesList = FileUtils.openFromFile(filename)
+            if(notesList != None):
+                self.notesList = notesList
+                self.countOfBeats = self.notesList.__getattribute__("countOfBeats")
+                self.valueOfBeats = self.notesList.__getattribute__("valuesOfBeats")
+                self.countOfBeastLlabel.setText(str(self.countOfBeats))
+                self.valueOfBeatLlabel.setText(str(self.valueOfBeats))
+
+        except Exception as ex:
+            QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+
+        if (self.notesListWindow == None):
+            self.openNotesListWindow()
+        self.notesListWindow.redraw(self.notesList)
+
     def saveFile(self):
-        filename, ok = QFileDialog.getSaveFileName(self,
-                                                   "Сохранить файл",
-                                                   ".",
-                                                   "(*.ns)")
-        print("<br>Сохранить файл: <b>{}</b> <br> <b>{:*^54}</b>"
-                                  "".format(filename, ok))
-        FileUtils.saveFile(filename, self.notesList)
+        try:
+            filename, ok = QFileDialog.getSaveFileName(self,
+                                                       "Сохранить файл",
+                                                       ".",
+                                                       "(*.ns)")
+            FileUtils.saveFile(filename, self.notesList)
+        except Exception as ex:
+            QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
 
     def undoPressed(self):
         tmp = copy.deepcopy(self.prevNotesList)
         self.prevNotesList = copy.deepcopy(self.notesList)
         self.notesList = tmp
+        self.countOfBeats = self.notesList.__getattribute__("countOfBeats")
+        self.valueOfBeats = self.notesList.__getattribute__("valuesOfBeats")
+        self.countOfBeastLlabel.setText(str(self.countOfBeats))
+        self.valueOfBeatLlabel.setText(str(self.valueOfBeats))
         if (self.notesListWindow == None):
             self.openNotesListWindow()
         self.notesListWindow.redraw(self.notesList)

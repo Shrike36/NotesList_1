@@ -59,8 +59,8 @@ class Bar:
                     break
 
     def toString(self):
-        str = "{\n"
+        str = "[\n"
         for element in self.elements:
             str+=element.toString()
-        str+="}\n"
+        str+="]\n"
         return str
