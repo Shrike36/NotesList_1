@@ -1,6 +1,7 @@
 from models.element import Element
 from models.notesEnum import NotesEnum
 from models.valuesEnum import ValuesEnum
+# from validators.noteValidator import NoteValidator
 
 
 class Note(Element):
@@ -9,6 +10,9 @@ class Note(Element):
         super().__init__(value)
         self.octave = octave
         self.name = name
+
+    def getName(self):
+        return self.name
 
     def getPic(self):
         return "D:/4_year/тест/pic/note/"+\
@@ -46,4 +50,4 @@ class Note(Element):
             self.name = NotesEnum(self.name.value + countOfSemitones)
 
     def findMaxCountOfSemitonesToTransposeUp(self):
-        return (5*12+NotesEnum.f.value) - (self.octave*12+self.name.value)
+        return (5*12+6) - (self.octave*12+self.name.value)

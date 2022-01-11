@@ -14,6 +14,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from models.notesList import NotesList
+from validators.notesListValidator import NotesListValidator
 
 
 class Ui_CreateNewNotesListWindow(object):
@@ -79,9 +80,12 @@ class Ui_CreateNewNotesListWindow(object):
         self.parent().__setattr__("prevNotesList", copy.deepcopy(self.parent().__getattribute__("notesList")))
         self.parent().__setattr__("countOfBeats", self.countOfBeatsComboBox.currentData())
         self.parent().__setattr__("valueOfBeats", self.vlaueOfBeatsComboBox.currentData())
-        self.parent().__setattr__("notesList", NotesList(
+        notesList = NotesList(
             self.countOfBeatsComboBox.currentData(),
-            self.vlaueOfBeatsComboBox.currentData()))
+            self.vlaueOfBeatsComboBox.currentData())
+        if(not NotesListValidator.isNotesListValid(notesList)):
+            raise Exception("Некорректно задар размер!")
+        self.parent().__setattr__("notesList", notesList)
 
 
         self.parent().__setattr__("countOfBeats", self.countOfBeatsComboBox.currentData())

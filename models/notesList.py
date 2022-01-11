@@ -3,20 +3,21 @@ from models.element import Element
 
 class NotesList:
 
-    def __init__(self, countOfBeats: int, valueOfBeats: int):
+    def __init__(self, countOfBeats: int, valueOfBeats: int, maxBarCount: int):
         self.notes_list = []
         self.countOfBeats = countOfBeats
         self.valuesOfBeats = valueOfBeats
+        self.maxBarcount = maxBarCount
 
     def getNotesList(self):
         return self.notes_list
 
     def addElementToTail(self, element: Element, autoFillFlag: bool):
         if(len(self.notes_list) == 0 or not self.notes_list[len(self.notes_list)-1].getFreeSpace()):
-            if(len(self.notes_list) <= 64):
+            if(len(self.notes_list) < self.maxBarcount):
                 self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
             else:
-                raise Exception("Невозможно создать больше 64 тактов!")
+                raise Exception("Невозможно создать больше"+str(self.maxBarcount)+"тактов!")
         elementNumber = len(self.notes_list[len(self.notes_list)-1].getElements())
         (self.notes_list[len(self.notes_list)-1]).addElement(element, elementNumber, autoFillFlag)
         if (len(self.notes_list[len(self.notes_list)-1].getElements()) == 0):
@@ -49,9 +50,10 @@ class NotesList:
         self.notes_list[barNumber].editElement(element, elementNumber, autoFillFlag)
 
     def addBar(self, bar: Bar):
-        if(len(self.notes_list) == 64):
-            raise Exception("Невозможно создать больше 64 тактов!")
-        self.notes_list.append(bar)
+        if(len(self.notes_list) >= self.maxBarcount):
+            raise Exception("Невозможно создать больше"+str(self.maxBarcount)+"тактов!")
+        self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
+
 
     def toString(self):
         string = str(self.countOfBeats)

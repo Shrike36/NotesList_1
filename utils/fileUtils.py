@@ -4,6 +4,7 @@ from models.notesEnum import NotesEnum
 from models.notesList import NotesList
 from models.rest import Rest
 from models.valuesEnum import ValuesEnum
+from validators.notesListValidator import NotesListValidator
 
 
 class FileUtils:
@@ -28,7 +29,10 @@ class FileUtils:
     def parseNoteListFromString(string:str):
         countOfBeats = int(string[0])
         valueOfBeats = int(string[1])
-        notesList = NotesList(countOfBeats, valueOfBeats)
+        maxBarCount = 64
+        notesList = NotesList(countOfBeats, valueOfBeats, maxBarCount)
+        if(not NotesListValidator.isNotesListValid(notesList)):
+            raise Exception("Невозможно считать данные из файла")
 
         for i in range(0, len(string)):
             # if not i.isspace():

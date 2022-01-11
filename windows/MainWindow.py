@@ -17,6 +17,7 @@ from models.notesList import NotesList
 from models.rest import Rest
 from models.valuesEnum import ValuesEnum
 from utils.fileUtils import FileUtils
+from validators.noteValidator import NoteValidator
 from windows.createNewNotesListWindow import Ui_CreateNewNotesListWindow
 from windows.notesListWindow import Ui_NotesListWindow
 
@@ -245,9 +246,10 @@ class Ui_MainWindow(QWidget):
 
         self.countOfBeats = 4
         self.valueOfBeats = 4
+        self.maxBarCount = 64
 
-        self.notesList = NotesList(self.countOfBeats, self.valueOfBeats)
-        self.prevNotesList = NotesList(self.countOfBeats, self.valueOfBeats)
+        self.notesList = NotesList(self.countOfBeats, self.valueOfBeats, self.maxBarCount)
+        self.prevNotesList = NotesList(self.countOfBeats, self.valueOfBeats, self.maxBarCount)
 
         self.notesListWindow = NotesListW(self)
         self.notesListWindow.show()
@@ -324,6 +326,13 @@ class Ui_MainWindow(QWidget):
             octave = int(self.octaveComboBox.currentText())
             note_name = NotesEnum(note)
             element = Note(value, octave, note_name)
+            try:
+                if(not NoteValidator.validateNote(element)):
+                    raise Exception("Для добавления доступны ноты от Фа2 до Фа5!")
+            except Exception as ex:
+                QMessageBox.critical(self, "Ошибка ", str(ex), QMessageBox.Ok)
+                return
+
         else:
             value = ValuesEnum(self.valueComboBox.currentData())
             element = Rest(value)
