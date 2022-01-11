@@ -22,7 +22,7 @@ class NotesList:
             if(len(self.notes_list) < self.maxBarcount):
                 self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
             else:
-                raise Exception("Невозможно создать больше"+str(self.maxBarcount)+"тактов!")
+                raise Exception("Невозможно создать больше "+str(self.maxBarcount)+" тактов!")
         elementNumber = len(self.notes_list[len(self.notes_list)-1].getElements())
         (self.notes_list[len(self.notes_list)-1]).addElement(element, elementNumber, autoFillFlag)
         if (len(self.notes_list[len(self.notes_list)-1].getElements()) == 0):
@@ -54,11 +54,10 @@ class NotesList:
             raise Exception("Такта с заданным номером не существует!")
         self.notes_list[barNumber].editElement(element, elementNumber, autoFillFlag)
 
-    def addBar(self, bar: Bar):
+    def addBar(self):
         if(len(self.notes_list) >= self.maxBarcount):
-            raise Exception("Невозможно создать больше"+str(self.maxBarcount)+"тактов!")
+            raise Exception("Невозможно создать больше "+str(self.maxBarcount)+" тактов!")
         self.notes_list.append(Bar(self.countOfBeats, self.valuesOfBeats))
-
 
     def toString(self):
         string = str(self.countOfBeats)
@@ -81,7 +80,7 @@ class NotesList:
         min = 1000
         for bar in self.notes_list:
             barMin = bar.findMaxCountOfSemitonesToTransposeUp()
-            if(barMin >= min):
+            if(barMin <= min):
                 min = barMin
         return min
 

@@ -11,8 +11,10 @@ class TestNoteValidator(TestCase):
         note = Note(ValuesEnum.half, 2, NotesEnum.a)
         self.assertTrue(NoteValidator.validateNote(note))
 
+    def test_validate_note_1(self):
         note = Note(ValuesEnum.half, 1, NotesEnum.a)
         self.assertFalse(NoteValidator.validateNote(note))
 
+    def test_validate_note_2(self):
         note = Note(ValuesEnum.half, 5, NotesEnum.b)
         self.assertFalse(NoteValidator.validateNote(note))
