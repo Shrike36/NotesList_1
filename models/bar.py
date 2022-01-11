@@ -5,8 +5,12 @@ import copy
 class Bar:
     def __init__(self, countOfBeats: int, valueOfBeats: int):
         self.elements = []
-        self.countOfBeats = countOfBeats
-        self.valuesOfBeats = valueOfBeats
+        if(countOfBeats == None or valueOfBeats == None):
+            self.countOfBeats = 4
+            self.valuesOfBeats = 4
+        else:
+            self.countOfBeats = countOfBeats
+            self.valuesOfBeats = valueOfBeats
 
     def getElements(self):
         return self.elements
@@ -18,7 +22,7 @@ class Bar:
             if(self.getFreeSpace() >= 1/element.getValue().value):
                 self.elements.insert(elementNumber, element)
             else:
-                raise Exception("Навозможно добавить к такту элемент заданной длительности!")
+                raise Exception("Невозможно добавить к такту элемент заданной длительности!")
         else:
             self.autoFill(element, elementNumber)
 
@@ -71,7 +75,7 @@ class Bar:
             raise Exception("Данный список нот можно транспонировать максимум на "+str(max)+" полутонов вверх!")
         for element in self.elements:
             if(element.__class__.__name__ == "Note"):
-                element.tramsposeUp(countOfSemitones)
+                element.transposeUp(countOfSemitones)
 
     def findMaxCountOfSemitonesToTransposeUp(self):
         min = 1000

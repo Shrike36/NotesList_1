@@ -9,7 +9,7 @@ class NotesListValidator:
     @staticmethod
     def isNotesListValid(notesList: NotesList):
         return notesList.__getattribute__("countOfBeats") in NotesListValidator.countOfBeats \
-               and notesList.__getattribute__("valueOfBeats") in NotesListValidator.valueOfBeats \
+               and notesList.__getattribute__("valuesOfBeats") in NotesListValidator.valuesOfBeats \
                and notesList.__getattribute__("maxBarcount")>0
 
 

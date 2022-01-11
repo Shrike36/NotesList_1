@@ -8,8 +8,12 @@ class Note(Element):
 
     def __init__(self, value: ValuesEnum, octave: int, name: NotesEnum):
         super().__init__(value)
-        self.octave = octave
-        self.name = name
+        if(octave == None or name == None):
+            self.octave = 4
+            self.name = NotesEnum.c
+        else:
+            self.octave = octave
+            self.name = name
 
     def getName(self):
         return self.name
@@ -36,7 +40,7 @@ class Note(Element):
               "\n}\n"
         return string
 
-    def tramsposeUp(self, countOfSemitones):
+    def transposeUp(self, countOfSemitones):
         max = self.findMaxCountOfSemitonesToTransposeUp()
         max = max if max < 11 else 11
         if(max < countOfSemitones or countOfSemitones < 0 ):

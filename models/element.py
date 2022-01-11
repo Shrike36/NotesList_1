@@ -3,7 +3,10 @@ from models.valuesEnum import ValuesEnum
 class Element:
 
     def __init__(self, value: ValuesEnum):
-        self.value = value
+        if(value == None):
+            self.value = ValuesEnum.whole
+        else:
+            self.value = value
 
     def getValue(self):
         return self.value

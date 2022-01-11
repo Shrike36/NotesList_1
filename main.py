@@ -10,15 +10,6 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-if(not 15):
-    print("hui1")
-
-if(15):
-    print("hui15")
-
-if(0):
-    print("hui0")
-
 app = QtWidgets.QApplication([])
 app.setStyle('Fusion')
 application = mywindow()

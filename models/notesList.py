@@ -5,9 +5,14 @@ class NotesList:
 
     def __init__(self, countOfBeats: int, valueOfBeats: int, maxBarCount: int):
         self.notes_list = []
-        self.countOfBeats = countOfBeats
-        self.valuesOfBeats = valueOfBeats
-        self.maxBarcount = maxBarCount
+        if(countOfBeats == None or valueOfBeats == None or maxBarCount == None):
+            self.countOfBeats = 4
+            self.valuesOfBeats = 4
+            self.maxBarcount = 64
+        else:
+            self.countOfBeats = countOfBeats
+            self.valuesOfBeats = valueOfBeats
+            self.maxBarcount = maxBarCount
 
     def getNotesList(self):
         return self.notes_list
